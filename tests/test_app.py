@@ -4,8 +4,13 @@ from fastapi import testclient
 from snaps import main, schemas
 
 
-@pytest.fixture(name="app_client")
-def fixture_app_client() -> testclient.TestClient:
+@pytest.fixture(name="setup_database", scope="function")
+def fixture_setup_database() -> None:
+    main.DATABASE.clear()
+
+
+@pytest.fixture(name="app_client", scope="function")
+def fixture_app_client(setup_database: None) -> testclient.TestClient:
     return testclient.TestClient(main.app)
 
 
@@ -14,8 +19,19 @@ def fixture_item() -> schemas.ItemSchema:
     return schemas.ItemSchema(name="name", id="id", price=123)
 
 
-def test_get_item(app_client: testclient.TestClient, item: schemas.ItemSchema) -> None:
-    response = app_client.get(main.ITEMS_ENDPOINT, params=item.model_dump())
+def test_items_should_be_unique(
+    app_client: testclient.TestClient, item: schemas.ItemSchema
+) -> None:
+    app_client.post(main.ITEMS_ENDPOINT, json=item.model_dump())
+    response = app_client.post(main.ITEMS_ENDPOINT, json=item.model_dump())
+
+    assert response.status_code == 409
+
+
+def test_create_item(
+    app_client: testclient.TestClient, item: schemas.ItemSchema
+) -> None:
+    response = app_client.post(main.ITEMS_ENDPOINT, json=item.model_dump())
     actual_item = schemas.ItemSchema.model_validate(response.json())
 
     assert response.status_code == 201
