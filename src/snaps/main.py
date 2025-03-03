@@ -8,7 +8,7 @@ from snaps.database import inmemory
 from snaps.models import schemas
 from snaps.service import item_services
 
-ITEMS_ENDPOINT = "/items"
+ITEMS_ENDPOINT = "/item"
 app = fastapi.FastAPI()
 
 
