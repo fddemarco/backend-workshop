@@ -32,13 +32,19 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "fastapi", extra = ["standard"] },
+]
+
+[package.dev-dependencies]
+dev = [
     { name = "pre-commit" },
     { name = "ruff" },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "fastapi", extras = ["standard"], specifier = ">=0.115.11" },
+requires-dist = [{ name = "fastapi", extras = ["standard"], specifier = ">=0.115.11" }]
+
+[package.metadata.requires-dev]
+dev = [
     { name = "pre-commit", specifier = ">=4.1.0" },
     { name = "ruff", specifier = ">=0.9.9" },
 ]
