@@ -4,7 +4,7 @@ from fastapi import testclient
 import snaps.database.inmemory
 from snaps import main
 from snaps.models import schemas
-from snaps.router import item as item_router
+from snaps.router import item_router
 
 
 @pytest.fixture(name="setup_database", scope="function")
