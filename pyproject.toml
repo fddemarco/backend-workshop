@@ -13,3 +13,19 @@ dev = [
     "pre-commit>=4.1.0",
     "ruff>=0.9.9",
 ]
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
