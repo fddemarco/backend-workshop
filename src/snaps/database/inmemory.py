@@ -1,11 +1,9 @@
-import typing
-
 from snaps.models import schemas
 
 
 class Database:
     def __init__(self) -> None:
-        self.data: dict[str, typing.Any] = {}
+        self.data: dict[str, schemas.ItemSchema] = {}
 
     def clear(self) -> None:
         self.data.clear()
