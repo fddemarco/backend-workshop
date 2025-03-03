@@ -4,6 +4,7 @@ from fastapi import testclient
 import snaps.database.inmemory
 from snaps import main
 from snaps.models import schemas
+from snaps.router import item as item_router
 
 
 @pytest.fixture(name="setup_database", scope="function")
@@ -24,8 +25,8 @@ def fixture_item() -> schemas.ItemSchema:
 def test_items_should_be_unique(
     app_client: testclient.TestClient, item: schemas.ItemSchema
 ) -> None:
-    app_client.post(main.ITEMS_ENDPOINT, json=item.model_dump())
-    response = app_client.post(main.ITEMS_ENDPOINT, json=item.model_dump())
+    app_client.post(item_router.ITEMS_ENDPOINT, json=item.model_dump())
+    response = app_client.post(item_router.ITEMS_ENDPOINT, json=item.model_dump())
 
     assert response.status_code == 409
 
@@ -33,7 +34,7 @@ def test_items_should_be_unique(
 def test_create_item(
     app_client: testclient.TestClient, item: schemas.ItemSchema
 ) -> None:
-    response = app_client.post(main.ITEMS_ENDPOINT, json=item.model_dump())
+    response = app_client.post(item_router.ITEMS_ENDPOINT, json=item.model_dump())
     actual_item = schemas.ItemSchema.model_validate(response.json())
 
     assert response.status_code == 201
