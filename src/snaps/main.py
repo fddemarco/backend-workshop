@@ -3,8 +3,10 @@ import typing
 import fastapi
 from fastapi import responses
 
+from snaps.controller import item_controllers
 from snaps.database import inmemory
 from snaps.models import schemas
+from snaps.service import item_services
 
 ITEMS_ENDPOINT = "/items"
 app = fastapi.FastAPI()
@@ -15,16 +17,12 @@ app = fastapi.FastAPI()
     response_model=schemas.ItemSchema,
     responses={409: {"model": schemas.Message}, 201: {"model": schemas.ItemSchema}},
 )
-def read_item(
+def create_item(
     item: schemas.ItemSchema,
     database: typing.Annotated[
         inmemory.Database, fastapi.Depends(inmemory.get_database)
     ],
 ) -> responses.JSONResponse:
-    if database.includes(item):
-        return responses.JSONResponse(
-            status_code=409,
-            content=schemas.Message(message="Item already exists!").model_dump(),
-        )
-    database.add(item.id, item)
-    return responses.JSONResponse(status_code=201, content=item.model_dump())
+    service = item_services.ItemService(database)
+    controller = item_controllers.ItemController(service)
+    return controller.create_item(item)
