@@ -18,5 +18,5 @@ def test_get_item(app_client: testclient.TestClient, item: schemas.ItemSchema) -
     response = app_client.get(main.ITEMS_ENDPOINT, params=item.model_dump())
     actual_item = schemas.ItemSchema.model_validate(response.json())
 
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert actual_item == item
