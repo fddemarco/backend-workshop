@@ -3,17 +3,11 @@ import typing
 import fastapi
 from fastapi import responses
 
-from snaps import schemas
-
-Database = dict[str, schemas.ItemSchema]
+from snaps.database import inmemory
+from snaps.models import schemas
 
 ITEMS_ENDPOINT = "/items"
-DATABASE: Database = {}
 app = fastapi.FastAPI()
-
-
-def get_database() -> Database:
-    return DATABASE
 
 
 @app.post(
@@ -23,12 +17,14 @@ def get_database() -> Database:
 )
 def read_item(
     item: schemas.ItemSchema,
-    database: typing.Annotated[Database, fastapi.Depends(get_database)],
+    database: typing.Annotated[
+        inmemory.Database, fastapi.Depends(inmemory.get_database)
+    ],
 ) -> responses.JSONResponse:
-    if item.id in database:
+    if database.includes(item):
         return responses.JSONResponse(
             status_code=409,
             content=schemas.Message(message="Item already exists!").model_dump(),
         )
-    database[item.id] = item
+    database.add(item)
     return responses.JSONResponse(status_code=201, content=item.model_dump())

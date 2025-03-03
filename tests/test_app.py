@@ -1,12 +1,14 @@
 import pytest
 from fastapi import testclient
 
-from snaps import main, schemas
+import snaps.database.inmemory
+from snaps import main
+from snaps.models import schemas
 
 
 @pytest.fixture(name="setup_database", scope="function")
 def fixture_setup_database() -> None:
-    main.DATABASE.clear()
+    snaps.database.inmemory.DATABASE.clear()
 
 
 @pytest.fixture(name="app_client", scope="function")
