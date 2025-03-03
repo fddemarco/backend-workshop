@@ -26,5 +26,5 @@ def read_item(
             status_code=409,
             content=schemas.Message(message="Item already exists!").model_dump(),
         )
-    database.add(item)
+    database.add(item.id, item)
     return responses.JSONResponse(status_code=201, content=item.model_dump())
