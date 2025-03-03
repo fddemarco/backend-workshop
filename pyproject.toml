@@ -1,5 +1,5 @@
 [project]
-name = "backend-workshop"
+name = "snaps"
 version = "0.1.0"
 description = ""
 readme = "README.md"
@@ -10,8 +10,11 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "coverage>=7.6.12",
+    "httpx>=0.28.1",
     "mypy>=1.15.0",
     "pre-commit>=4.1.0",
+    "pytest>=8.3.5",
     "ruff>=0.9.9",
 ]
 
@@ -36,3 +39,6 @@ disallow_untyped_defs = true
 disallow_incomplete_defs = true
 strict = true
 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -1,8 +1,7 @@
 import pydantic
 
 
-class Item(pydantic.BaseModel):
-    model_config = pydantic.ConfigDict(extra="forbid")
+class ItemSchema(pydantic.BaseModel):
     name: str
     id: str
     price: int
