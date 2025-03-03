@@ -8,5 +8,7 @@ app = fastapi.FastAPI()
 
 
 @app.get("/items")
-def read_item(item: typing.Annotated[schemas.Item, fastapi.Query()]):
+def read_item(
+    item: typing.Annotated[schemas.Item, fastapi.Query()],
+) -> dict[str, typing.Any]:
     return {"name": item.name, "id": item.id, "price": item.price}
