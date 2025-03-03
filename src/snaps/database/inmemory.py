@@ -1,5 +1,7 @@
 import typing
 
+from snaps.models import schemas
+
 
 class Database:
     def __init__(self) -> None:
@@ -8,10 +10,10 @@ class Database:
     def clear(self) -> None:
         self.data.clear()
 
-    def includes(self, item: typing.Any) -> bool:
+    def includes(self, item: schemas.ItemSchema) -> bool:
         return item.id in self.data
 
-    def add(self, item: typing.Any) -> None:
+    def add(self, item: schemas.ItemSchema) -> None:
         self.data[item.id] = item
 
 
