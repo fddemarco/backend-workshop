@@ -45,3 +45,20 @@ Create a Dockerfile to containerize the application, allowing it to run in any e
 - Write a Dockerfile that installs dependencies, builds the project, and runs the application.
 - Ensure that the correct ports are exposed and mapped for API access.
 - Test the Dockerized application locally to verify it works as expected.
+
+#### Build the Image
+
+To build the Docker image, use the following command:
+
+```sh
+docker build -t snaps:<VERSION> .
+```
+
+#### Start the Container
+
+To start the container from the image you've built, use the following command:
+
+```sh
+docker run -d [--name <CONTAINER_NAME>] -p 80:80 snaps:<VERSION>
+```
+If you don't specify the --name <CONTAINER_NAME> option, Docker will generate a random name for the container.
